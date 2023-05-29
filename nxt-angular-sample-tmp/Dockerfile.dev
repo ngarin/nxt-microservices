@@ -1,0 +1,7 @@
+FROM node:20.2.0-alpine
+
+WORKDIR /usr/src/nxt-angular-sample
+
+EXPOSE 4200
+
+CMD ["npm", "start"]
