@@ -1,28 +1,28 @@
 # Zip generation
-Generate wb-user zip for staging:
+Generate nxt-node-sample zip for staging:
   image: ubuntu:20.04
   only:
     refs:
       - develop
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   dependencies:
-    - Build wb-user for staging
-    - Prepare wb-user dockerfile for staging
+    - Build nxt-node-sample for staging
+    - Prepare nxt-node-sample dockerfile for staging
   stage: zip
   before_script:
     - apt-get update
     - apt-get install -y zip unzip
   script:
-    - mkdir -p tmp/wb-user
+    - mkdir -p tmp/nxt-node-sample
     - mkdir -p tmp/nxt-backend
     - mkdir -p tmp/nxt-shared
-    - cp wb-user/Dockerfile tmp/
-    - cp wb-user/package.json tmp/wb-user/
-    - cp wb-user/package-lock.json tmp/wb-user/
-    - cp -R wb-user/dist/ tmp/wb-user/dist/
+    - cp nxt-node-sample/Dockerfile tmp/
+    - cp nxt-node-sample/package.json tmp/nxt-node-sample/
+    - cp nxt-node-sample/package-lock.json tmp/nxt-node-sample/
+    - cp -R nxt-node-sample/dist/ tmp/nxt-node-sample/dist/
     - cp nxt-backend/package.json tmp/nxt-backend/
     - cp nxt-backend/package-lock.json tmp/nxt-backend/
     - cp -R nxt-backend/dist/ tmp/nxt-backend/dist/
@@ -30,37 +30,37 @@ Generate wb-user zip for staging:
     - cp nxt-shared/package.json tmp/nxt-shared/
     - cp nxt-shared/package-lock.json tmp/nxt-shared/
     - cd tmp
-    - zip -r build.zip Dockerfile wb-user/ nxt-backend/ nxt-shared/
-    - mv build.zip ../wb-user/build.zip
+    - zip -r build.zip Dockerfile nxt-node-sample/ nxt-backend/ nxt-shared/
+    - mv build.zip ../nxt-node-sample/build.zip
   artifacts:
     paths:
-      - wb-user/build.zip
+      - nxt-node-sample/build.zip
     expire_in: 2 weeks
 
-Generate wb-user zip for preprod:
+Generate nxt-node-sample zip for preprod:
   image: ubuntu:20.04
   only:
     refs:
       - master
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   dependencies:
-    - Build wb-user for preprod
-    - Prepare wb-user dockerfile for preprod
+    - Build nxt-node-sample for preprod
+    - Prepare nxt-node-sample dockerfile for preprod
   stage: zip
   before_script:
     - apt-get update
     - apt-get install -y zip unzip
   script:
-    - mkdir -p tmp/wb-user
+    - mkdir -p tmp/nxt-node-sample
     - mkdir -p tmp/nxt-backend
     - mkdir -p tmp/nxt-shared
-    - cp wb-user/Dockerfile tmp/
-    - cp wb-user/package.json tmp/wb-user/
-    - cp wb-user/package-lock.json tmp/wb-user/
-    - cp -R wb-user/dist/ tmp/wb-user/dist/
+    - cp nxt-node-sample/Dockerfile tmp/
+    - cp nxt-node-sample/package.json tmp/nxt-node-sample/
+    - cp nxt-node-sample/package-lock.json tmp/nxt-node-sample/
+    - cp -R nxt-node-sample/dist/ tmp/nxt-node-sample/dist/
     - cp nxt-backend/package.json tmp/nxt-backend/
     - cp nxt-backend/package-lock.json tmp/nxt-backend/
     - cp -R nxt-backend/dist/ tmp/nxt-backend/dist/
@@ -68,37 +68,37 @@ Generate wb-user zip for preprod:
     - cp nxt-shared/package.json tmp/nxt-shared/
     - cp nxt-shared/package-lock.json tmp/nxt-shared/
     - cd tmp
-    - zip -r build.zip Dockerfile wb-user/ nxt-backend/ nxt-shared/
-    - mv build.zip ../wb-user/build.zip
+    - zip -r build.zip Dockerfile nxt-node-sample/ nxt-backend/ nxt-shared/
+    - mv build.zip ../nxt-node-sample/build.zip
   artifacts:
     paths:
-      - wb-user/build.zip
+      - nxt-node-sample/build.zip
     expire_in: 2 weeks
 
-Generate wb-user zip for production:
+Generate nxt-node-sample zip for production:
   image: ubuntu:20.04
   only:
     refs:
       - tags
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   dependencies:
-    - Build wb-user for production
-    - Prepare wb-user dockerfile for production
+    - Build nxt-node-sample for production
+    - Prepare nxt-node-sample dockerfile for production
   stage: zip
   before_script:
     - apt-get update
     - apt-get install -y zip unzip
   script:
-    - mkdir -p tmp/wb-user
+    - mkdir -p tmp/nxt-node-sample
     - mkdir -p tmp/nxt-backend
     - mkdir -p tmp/nxt-shared
-    - cp wb-user/Dockerfile tmp/
-    - cp wb-user/package.json tmp/wb-user/
-    - cp wb-user/package-lock.json tmp/wb-user/
-    - cp -R wb-user/dist/ tmp/wb-user/dist/
+    - cp nxt-node-sample/Dockerfile tmp/
+    - cp nxt-node-sample/package.json tmp/nxt-node-sample/
+    - cp nxt-node-sample/package-lock.json tmp/nxt-node-sample/
+    - cp -R nxt-node-sample/dist/ tmp/nxt-node-sample/dist/
     - cp nxt-backend/package.json tmp/nxt-backend/
     - cp nxt-backend/package-lock.json tmp/nxt-backend/
     - cp -R nxt-backend/dist/ tmp/nxt-backend/dist/
@@ -106,9 +106,9 @@ Generate wb-user zip for production:
     - cp nxt-shared/package.json tmp/nxt-shared/
     - cp nxt-shared/package-lock.json tmp/nxt-shared/
     - cd tmp
-    - zip -r build.zip Dockerfile wb-user/ nxt-backend/ nxt-shared/
-    - mv build.zip ../wb-user/build.zip
+    - zip -r build.zip Dockerfile nxt-node-sample/ nxt-backend/ nxt-shared/
+    - mv build.zip ../nxt-node-sample/build.zip
   artifacts:
     paths:
-      - wb-user/build.zip
+      - nxt-node-sample/build.zip
     expire_in: 2 weeks

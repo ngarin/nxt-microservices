@@ -1,6 +1,6 @@
-FROM node:12.15.0-alpine
+FROM node:18.14.0-alpine
 
-WORKDIR /usr/src/wb-user
+WORKDIR /usr/src/nxt-node-sample
 
 EXPOSE 8080
 

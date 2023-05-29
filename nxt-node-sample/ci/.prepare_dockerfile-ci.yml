@@ -1,14 +1,14 @@
-Prepare wb-user dockerfile for staging:
+Prepare nxt-node-sample dockerfile for staging:
   image: ubuntu:20.04
   only:
     refs:
       - develop
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   dependencies:
-    - Build wb-user for staging
+    - Build nxt-node-sample for staging
   stage: dockerfile
   variables:
     MONGO_PROTOCOL: ${STAGING_MONGO_PROTOCOL}
@@ -20,26 +20,26 @@ Prepare wb-user dockerfile for staging:
     MAILJET_APIKEY_PUBLIC: ${STAGING_MJ_APIKEY_PUBLIC}
     MAILJET_APIKEY_PRIVATE: ${STAGING_MJ_APIKEY_PRIVATE}
   before_script:
-    - cd wb-user
+    - cd nxt-node-sample
   script:
     - chmod +x ./build_dockerfile.sh
     - ./build_dockerfile.sh
   artifacts:
     paths:
-      - wb-user/Dockerfile
+      - nxt-node-sample/Dockerfile
     expire_in: 12 hours
 
-Prepare wb-user dockerfile for preprod:
+Prepare nxt-node-sample dockerfile for preprod:
   image: ubuntu:20.04
   only:
     refs:
       - master
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   dependencies:
-    - Build wb-user for preprod
+    - Build nxt-node-sample for preprod
   stage: dockerfile
   variables:
     MONGO_PROTOCOL: ${PREPROD_MONGO_PROTOCOL}
@@ -51,26 +51,26 @@ Prepare wb-user dockerfile for preprod:
     MAILJET_APIKEY_PUBLIC: ${PREPROD_MJ_APIKEY_PUBLIC}
     MAILJET_APIKEY_PRIVATE: ${PREPROD_MJ_APIKEY_PRIVATE}
   before_script:
-    - cd wb-user
+    - cd nxt-node-sample
   script:
     - chmod +x ./build_dockerfile.sh
     - ./build_dockerfile.sh
   artifacts:
     paths:
-      - wb-user/Dockerfile
+      - nxt-node-sample/Dockerfile
     expire_in: 12 hours
 
-Prepare wb-user dockerfile for production:
+Prepare nxt-node-sample dockerfile for production:
   image: ubuntu:20.04
   only:
     refs:
       - tags
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   dependencies:
-    - Build wb-user for production
+    - Build nxt-node-sample for production
   stage: dockerfile
   variables:
     MONGO_PROTOCOL: ${PROD_MONGO_PROTOCOL}
@@ -82,11 +82,11 @@ Prepare wb-user dockerfile for production:
     MAILJET_APIKEY_PUBLIC: ${PROD_MJ_APIKEY_PUBLIC}
     MAILJET_APIKEY_PRIVATE: ${PROD_MJ_APIKEY_PRIVATE}
   before_script:
-    - cd wb-user
+    - cd nxt-node-sample
   script:
     - chmod +x ./build_dockerfile.sh
     - ./build_dockerfile.sh
   artifacts:
     paths:
-      - wb-user/Dockerfile
+      - nxt-node-sample/Dockerfile
     expire_in: 12 hours

@@ -26,13 +26,14 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./nxt-node-sample:/usr/src/nxt-node-sample:cached
+      - ./nxt-backend:/usr/src/nxt-node-sample/node_modules/nxt-backend:cached
       - ./nxt-shared:/usr/src/nxt-node-sample/node_modules/nxt-shared:cached
     ports:
       - '8080:8080'
     networks:
       - app-network
     depends_on:
-      - mongo-db
+      - nxt-mongo-db
       - s3
 
   # Web app front
@@ -50,13 +51,10 @@ services:
       - '4200:4200'
     networks:
       - app-network
-    depends_on:
-      - mongo-db
-      - s3
   ### SERVICES SPOT (don't touch)
 
   # Mongo DB
-  mongo-db:
+  nxt-mongo-db:
     image: mongo:4.2
     container_name: nxt-mongo-db
     command: mongod

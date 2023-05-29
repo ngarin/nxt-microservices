@@ -1,6 +1,6 @@
-FROM node:12.15.0-alpine
+FROM node:18.14.0-alpine
 
-WORKDIR /usr/src/wb-user
+WORKDIR /usr/src/nxt-node-sample
 
 ## Variables
 ##############
@@ -19,13 +19,13 @@ ENV MONGO_AUTH_SOURCE={{MONGO_AUTH_SOURCE}}
 ENV MAILJET_APIKEY_PUBLIC={{MAILJET_APIKEY_PUBLIC}}
 ENV MAILJET_APIKEY_PRIVATE={{MAILJET_APIKEY_PRIVATE}}
 
-COPY ./wb-user/ /usr/src/wb-user/
+COPY ./nxt-node-sample/ /usr/src/nxt-node-sample/
 COPY ./nxt-backend/ /usr/src/nxt-backend/
 COPY ./nxt-shared/ /usr/src/nxt-shared/
 
 RUN cd ../nxt-shared && npm ci && npm link
 RUN cd ../nxt-backend && npm ci && npm link && npm link nxt-shared
-RUN cd ../wb-user && npm ci && npm link nxt-backend && npm link nxt-shared
+RUN cd ../nxt-node-sample && npm ci && npm link nxt-backend && npm link nxt-shared
 
 EXPOSE 8080
 

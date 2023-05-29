@@ -1,9 +1,9 @@
 # Build
-Build wb-user for staging:
+Build nxt-node-sample for staging:
   image: node:12.15.0-alpine
   only:
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   stage: build
@@ -23,7 +23,7 @@ Build wb-user for staging:
     - npm link
     - npm link nxt-shared
     - npm run build
-    - cd ../wb-user
+    - cd ../nxt-node-sample
     - npm ci
     - npm link nxt-backend
     - npm link nxt-shared
@@ -33,16 +33,16 @@ Build wb-user for staging:
     paths:
       - nxt-backend/dist/
       - nxt-shared/dist/
-      - wb-user/dist/
+      - nxt-node-sample/dist/
     expire_in: 12 hours
 
-Build wb-user for preprod:
+Build nxt-node-sample for preprod:
   image: node:12.15.0-alpine
   only:
     refs:
       - master
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   stage: build
@@ -59,7 +59,7 @@ Build wb-user for preprod:
     - npm link
     - npm link nxt-shared
     - npm run build
-    - cd ../wb-user
+    - cd ../nxt-node-sample
     - npm ci
     - npm link nxt-backend
     - npm link nxt-shared
@@ -69,16 +69,16 @@ Build wb-user for preprod:
     paths:
       - nxt-backend/dist/
       - nxt-shared/dist/
-      - wb-user/dist/
+      - nxt-node-sample/dist/
     expire_in: 12 hours
 
-Build wb-user for production:
+Build nxt-node-sample for production:
   image: node:12.15.0-alpine
   only:
     refs:
       - tags
     changes:
-      - wb-user/**/*
+      - nxt-node-sample/**/*
       - nxt-backend/**/*
       - nxt-shared/**/*
   stage: build
@@ -95,7 +95,7 @@ Build wb-user for production:
     - npm link
     - npm link nxt-shared
     - npm run build
-    - cd ../wb-user
+    - cd ../nxt-node-sample
     - npm ci
     - npm link nxt-backend
     - npm link nxt-shared
@@ -105,5 +105,5 @@ Build wb-user for production:
     paths:
       - nxt-backend/dist/
       - nxt-shared/dist/
-      - wb-user/dist/
+      - nxt-node-sample/dist/
     expire_in: 12 hours
