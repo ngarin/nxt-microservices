@@ -17,9 +17,9 @@ build: ## build app docker compose
 .PHONY: build
 
 install-local:
-	cd nxt-shared npm ci && npm link
-	cd nxt-backend npm ci && npm link && npm link nxt-shared
-	cd nxt-node-sample npm ci && npm link nxt-shared nxt-backend
+	cd nxt-shared && npm i && npm link
+	cd nxt-backend && npm i && npm link && npm link nxt-shared
+	cd nxt-node-sample && npm i && npm link nxt-shared nxt-backend
 .PHONY: install-local
 
 install-svc:
