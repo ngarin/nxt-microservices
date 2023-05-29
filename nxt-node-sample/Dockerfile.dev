@@ -1,0 +1,7 @@
+FROM node:12.15.0-alpine
+
+WORKDIR /usr/src/wb-user
+
+EXPOSE 8080
+
+CMD ["npm", "start"]

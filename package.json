@@ -1,0 +1,12 @@
+{
+  "name": "wp-app",
+  "version": "1.0.0",
+  "description": "Nxt's Monorepo",
+  "main": "index.js",
+  "scripts": {
+    "start": "make run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nicolas GARIN",
+  "license": "ISC"
+}

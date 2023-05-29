@@ -1,0 +1,30 @@
+Deploy wb-user to staging:
+  image: ubuntu:20.04
+  only:
+    refs:
+      - develop
+    changes:
+      - wb-user/**/*
+      - nxt-backend/**/*
+      - nxt-shared/**/*
+  dependencies:
+    - Generate wb-user zip for staging
+  stage: deploy
+  before_script:
+    - cd wb-user
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "${STAGING_SSH_PRIVATE_KEY}")
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$STAGING_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh ${STAGING_SERVER_USER}@${STAGING_SERVER_HOST} "rm -rf /home/${STAGING_SERVER_USER}/wb-user"
+    - ssh ${STAGING_SERVER_USER}@${STAGING_SERVER_HOST} "mkdir /home/${STAGING_SERVER_USER}/wb-user"
+    - scp build.zip ${STAGING_SERVER_USER}@${STAGING_SERVER_HOST}:/home/${STAGING_SERVER_USER}/wb-user
+    - ssh ${STAGING_SERVER_USER}@${STAGING_SERVER_HOST} "unzip /home/${STAGING_SERVER_USER}/wb-user/build.zip -d /home/${STAGING_SERVER_USER}/wb-user"
+    - ssh ${STAGING_SERVER_USER}@${STAGING_SERVER_HOST} "docker container rm --force wb-user || true"
+    - ssh ${STAGING_SERVER_USER}@${STAGING_SERVER_HOST} "docker build /home/${STAGING_SERVER_USER}/wb-user -t wb-user"
+    - ssh ${STAGING_SERVER_USER}@${STAGING_SERVER_HOST} "docker run --restart=on-failure -p 8080:8080 -d --name wb-user wb-user"
+    - ssh ${STAGING_SERVER_USER}@${STAGING_SERVER_HOST} "rm -rf /home/${STAGING_SERVER_USER}/wb-user"

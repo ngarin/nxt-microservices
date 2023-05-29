@@ -1,0 +1,19 @@
+{
+  "name": "nxt-shared",
+  "version": "1.0.0",
+  "description": "",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "Nicolas GARIN",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^7.2.1",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.0"
+  }
+}
