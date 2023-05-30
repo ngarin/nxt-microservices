@@ -51,6 +51,21 @@ services:
       - '4200:4200'
     networks:
       - app-network
+  
+  nxt-react-sample:
+    image: nxt-react-sample
+    container_name: nxt-react-sample
+    restart: unless-stopped
+    build:
+      context: ./nxt-react-sample
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./nxt-react-sample:/usr/src/nxt-react-sample:cached
+      - ./nxt-shared:/usr/src/nxt-react-sample/node_modules/nxt-shared:cached
+    ports:
+      - '3000:3000'
+    networks:
+      - app-network
   ### SERVICES SPOT (don't touch)
 
   # Mongo DB

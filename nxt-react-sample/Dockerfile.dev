@@ -1,0 +1,7 @@
+FROM node:20.2.0-alpine
+
+WORKDIR /usr/src/nxt-react-sample
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

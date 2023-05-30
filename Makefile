@@ -20,12 +20,6 @@ build: ## build app docker compose
 	docker-compose -f docker-compose.yml build
 .PHONY: build
 
-install-local:
-	cd nxt-shared && npm i && npm run build && npm link
-	cd nxt-backend && npm i && npm link nxt-shared && npm run build && npm link
-	cd nxt-node-sample && npm i && npm link nxt-shared nxt-backend
-.PHONY: install-local
-
 install-svc:
 	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared $(svc) npm i
 	docker run --rm -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -w /usr/src/nxt-backend $(svc) npm i
@@ -41,6 +35,9 @@ install: ## install all dependencies
 
 	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared nxt-angular-sample npm ci
 	docker run --rm -v ${CURDIR}/nxt-angular-sample:/usr/src/nxt-angular-sample -w /usr/src/nxt-angular-sample nxt-angular-sample npm ci
+
+	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared nxt-react-sample npm ci
+	docker run --rm -v ${CURDIR}/nxt-react-sample:/usr/src/nxt-react-sample -w /usr/src/nxt-react-sample nxt-react-sample npm ci
 .PHONY: install
 
 rm-dependencies: ## remove all dependencies
@@ -49,6 +46,7 @@ rm-dependencies: ## remove all dependencies
 	rm -rf nxt-backend/node_modules
 	rm -rf nxt-shared/node_modules
 	rm -rf nxt-angular-sample/node_modules
+	rm -rf nxt-react-sample/node_modules
 	rm -rf nxt-node-sample/node_modules
 	# Remove dependencies by CLI (don't touch)
 .PHONY: rm-dependencies
@@ -61,6 +59,8 @@ link: ## link all dependencies
 	## Link by CLI (don't touch)
 
 	docker run -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-angular-sample:/usr/src/nxt-angular-sample -w /usr/src/nxt-angular-sample nxt-angular-sample npm link ../nxt-shared
+
+	docker run -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-react-sample:/usr/src/nxt-react-sample -w /usr/src/nxt-react-sample nxt-react-sample npm link ../nxt-shared
 .PHONY: link
 
 up: ## run all app in docker
@@ -86,6 +86,7 @@ stop-all: ## stop all apps in docker
 	$(MAKE) stop svc=s3
 	$(MAKE) stop svc=nxt-node-sample
 	$(MAKE) stop svc=nxt-angular-sample
+	$(MAKE) stop svc=nxt-react-sample
 .PHONY: stop-all
 
 rm: ## remove all app in docker
