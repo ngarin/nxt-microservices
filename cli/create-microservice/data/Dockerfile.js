@@ -1,4 +1,4 @@
-const fileContent = `FROM node:18.14.0-alpine
+const fileContent = `FROM node:20.2.0-alpine
 
 WORKDIR /usr/src/{{serviceName}}
 
