@@ -1,11 +1,15 @@
 run-from-scratch: ## run project
-	$(MAKE) rm-dependencies
-	$(MAKE) rm
+	$(MAKE) clean-up
 	$(MAKE) build
 	$(MAKE) install
 	$(MAKE) link
 	$(MAKE) up
 .PHONY: run
+
+clean-up:
+	$(MAKE) rm
+	$(MAKE) rm-dependencies
+.PHONY: clean-up
 
 run: ## run project
 	$(MAKE) link
@@ -50,13 +54,13 @@ rm-dependencies: ## remove all dependencies
 .PHONY: rm-dependencies
 
 link: ## link all dependencies
-	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -v ${CURDIR}/nxt-node-sample:/usr/src/nxt-node-sample -w /usr/src/nxt-shared nxt-node-sample npm link
-	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -v ${CURDIR}/nxt-node-sample:/usr/src/nxt-node-sample -w /usr/src/nxt-backend nxt-node-sample npm link && npm link ../nxt-shared
-	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -v ${CURDIR}/nxt-node-sample:/usr/src/nxt-node-sample -w /usr/src/nxt-node-sample nxt-node-sample npm link ../nxt-shared ../nxt-backend --loglevel verbose
+	docker run -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared nxt-node-sample npm link
+	docker run -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -w /usr/src/nxt-backend nxt-node-sample sh -c "npm link && npm link ../nxt-shared"
+	docker run -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -v ${CURDIR}/nxt-node-sample:/usr/src/nxt-node-sample -w /usr/src/nxt-node-sample nxt-node-sample npm link ../nxt-shared ../nxt-backend
 
 	## Link by CLI (don't touch)
 
-	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-angular-sample:/usr/src/nxt-angular-sample -w /usr/src nxt-angular-sample npm link ../nxt-shared
+	docker run -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -v ${CURDIR}/nxt-angular-sample:/usr/src/nxt-angular-sample -w /usr/src/nxt-angular-sample nxt-angular-sample npm link ../nxt-shared
 .PHONY: link
 
 up: ## run all app in docker
@@ -73,11 +77,15 @@ start-all: ## start all apps in docker
 .PHONY: start-all
 
 stop: ## stop app in docker
-	docker-compose stop $(svc)
+	docker-compose stop --force $(svc)
 .PHONY: stop
 
 stop-all: ## stop all apps in docker
-	docker-compose stop server
+	$(MAKE) stop svc=server
+	$(MAKE) stop svc=nxt-mongo-db
+	$(MAKE) stop svc=s3
+	$(MAKE) stop svc=nxt-node-sample
+	$(MAKE) stop svc=nxt-angular-sample
 .PHONY: stop-all
 
 rm: ## remove all app in docker

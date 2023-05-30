@@ -20,14 +20,8 @@ sourceMapSupport.install()
 const app = express()
 
 let whitelist = [
-  'https://www.winningbrothers.com',
-  'https://dev-admin.winningbrothers.localhost',
-  'https://dev-www.winningbrothers.localhost',
-  'https://stag-admin.winningbrothers.com',
-  'https://stag-www.winningbrothers.com',
-  'http://localhost:4200',
-  'http://localhost:4201',
-  'http://127.0.0.1:4201'
+  'https://dev-admin.nxt-microservices.localhost',
+  'https://dev-www.nxt-microservices.localhost'
 ]
 
 app.use(
