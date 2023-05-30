@@ -7,7 +7,7 @@ run-from-scratch: ## run project
 .PHONY: run
 
 clean-up:
-	$(MAKE) rm
+	$(MAKE) rm-all
 	$(MAKE) rm-dependencies
 .PHONY: clean-up
 
@@ -89,9 +89,26 @@ stop-all: ## stop all apps in docker
 	$(MAKE) stop svc=nxt-react-sample
 .PHONY: stop-all
 
+rm-all: ## stop all apps in docker
+	$(MAKE) rm svc=server
+	$(MAKE) rm svc=nxt-mongo-db
+	$(MAKE) rm svc=s3
+	$(MAKE) rm svc=nxt-node-sample
+	$(MAKE) rm svc=nxt-angular-sample
+	$(MAKE) rm svc=nxt-react-sample
+.PHONY: rm-all
+
 rm: ## remove all app in docker
-	docker-compose -f docker-compose.yml down --rmi all
+	docker-compose rm $(svc)
 .PHONY: rm
+
+down-rm: ## remove all app in docker
+	docker-compose -f docker-compose.yml down --rmi all
+.PHONY: down
+
+down: ## remove all app in docker
+	docker-compose -f docker-compose.yml down
+.PHONY: down
 
 logf:
 	docker logs -f --tail 100 $(svc)
