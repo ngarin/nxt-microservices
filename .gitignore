@@ -1,3 +1,4 @@
 node_modules
 mongo_data
 */.DS_Store
+s3_data
