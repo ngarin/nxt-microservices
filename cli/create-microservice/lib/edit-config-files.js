@@ -57,7 +57,10 @@ const editConfigFilesSrc = (prefix, name) => {
   const makefileRemoveContentToReplace = `rm -rf ${prefix}-${name}/node_modules
 \t# Remove dependencies by CLI (don\'t touch)`
 
-  const makefileLinkContentToReplace = `docker run --rm -v \${CURDIR}/nxt-shared:/usr/src/nxt-shared -v \${CURDIR}/nxt-backend:/usr/src/nxt-backend -v \${CURDIR}/${prefix}-${name}:/usr/src/${prefix}-${name} -w /usr/src ${prefix}-${name} npm link --prefix nxt-shared && npm link --prefix nxt-backend && npm link nxt-shared --prefix nxt-backend && npm link nxt-shared nxt-backend --prefix ${prefix}-${name}
+  const makefileLinkContentToReplace = `docker run --rm -v \${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared ${prefix}-${name} npm link
+\tdocker run --rm -v \${CURDIR}/nxt-shared:/usr/src/nxt-shared -v \${CURDIR}/nxt-backend:/usr/src/nxt-backend -w /usr/src/nxt-backend ${prefix}-${name} sh -c "npm link && npm link ../nxt-shared"
+\tdocker run --rm -v \${CURDIR}/nxt-shared:/usr/src/nxt-shared -v \${CURDIR}/nxt-backend:/usr/src/nxt-backend -v \${CURDIR}/${prefix}-${name}:/usr/src/${prefix}-${name} -w /usr/src/${prefix}-${name} ${prefix}-${name} npm link ../nxt-shared ../nxt-backend
+
 
 \t# Link by CLI (don\'t touch)`
 
