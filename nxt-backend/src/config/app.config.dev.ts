@@ -1,10 +1,10 @@
 export const appConfig = {
   webappUrl: {
     protocol: 'https',
-    host: 'dev-www.nxt-microservices.localhost'
+    host: 'dev-www.nxt-microservices.localhost',
   },
   nodeSampleUrl: {
-    protocol: 'http',
-    host: 'wb-node-sample:8080'
-  }
+    protocol: 'https',
+    host: 'dev-api.nxt-microservices.localhost/node-sample',
+  },
 }

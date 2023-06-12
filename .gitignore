@@ -2,3 +2,6 @@ node_modules
 mongo_data
 */.DS_Store
 s3_data
+nxt-rabbitmq/rabbitmq.conf
+nxt-rabbitmq/db
+nxt-rabbitmq/logs

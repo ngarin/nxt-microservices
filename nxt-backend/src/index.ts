@@ -21,7 +21,8 @@ const app = express()
 
 let whitelist = [
   'https://dev-admin.nxt-microservices.localhost',
-  'https://dev-www.nxt-microservices.localhost'
+  'https://dev-www.nxt-microservices.localhost',
+  'http://localhost:5500',
 ]
 
 app.use(
@@ -33,7 +34,7 @@ app.use(
         callback(new Error('Not allowed by CORS'))
       }
     },
-    optionsSuccessStatus: 200
+    optionsSuccessStatus: 200,
   })
 )
 
@@ -41,7 +42,11 @@ app.use(helmet())
 app.use(compression())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(morgan('[:date[clf]]: :method :url :status :response-time ms - :res[content-length]'))
+app.use(
+  morgan(
+    '[:date[clf]]: :method :url :status :response-time ms - :res[content-length]'
+  )
+)
 
 export async function launchServer(
   router: express.Router,
@@ -67,24 +72,37 @@ export async function launchServer(
 
     app.use(router)
 
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-      res.status(EHttpStatusCodes.notFound).send({
-        details: "This entity dosen't exists or has been deleted",
-        status: EHttpStatusCodes.notFound,
-        title: 'Not Found'
-      })
-    })
+    app.use(
+      (
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+      ) => {
+        res.status(EHttpStatusCodes.notFound).send({
+          details: "This entity dosen't exists or has been deleted",
+          status: EHttpStatusCodes.notFound,
+          title: 'Not Found',
+        })
+      }
+    )
 
-    app.use((err, req: express.Request, res: express.Response, next: express.NextFunction) => {
-      handleError(err, res)
-    })
+    app.use(
+      (
+        err,
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+      ) => {
+        handleError(err, res)
+      }
+    )
 
     if (!hasSocket) {
       app.listen(port, () => {
         logger.info(`Listening to http://localhost:${port} 🚀`)
       })
     } else {
-      io.on('connection', socket => {
+      io.on('connection', (socket) => {
         handleSocket(socket)
       })
 

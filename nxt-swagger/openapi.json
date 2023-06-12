@@ -1,0 +1,88 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Nxt Microservices",
+    "description": "This is a sample swagger api definition for Nxt Microservices",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.nxt-microservices.localhost"
+    },
+    {
+      "url": "https://stag-api.nxt-microservices.com"
+    },
+    {
+      "url": "https://api.nxt-microservices.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "node-sample",
+      "description": "Sample api based on node",
+      "externalDocs": {
+        "description": "Find out more about nxt-microservices",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "paths": {
+    "/node-sample/{lang}": {
+      "get": {
+        "tags": [
+          "node-sample"
+        ],
+        "summary": "Returns ok",
+        "description": "It's a sample",
+        "operationId": "fetch",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "description": "Lang used for the query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SampleResponse": {
+        "required": [
+          "msg"
+        ],
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "ok"
+          }
+        }
+      }
+    }
+  }
+}

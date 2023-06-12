@@ -7,7 +7,7 @@ const gitlabCIPath = resolve(__dirname, '../../../.gitlab-ci.yml')
 const dockerComposePath = resolve(__dirname, '../../../docker-compose.yml')
 const currentPortPath = resolve(__dirname, '../data/current-port.txt')
 const makefilePath = resolve(__dirname, '../../../Makefile')
-const apiNginxConfPath = resolve(__dirname, '../../../server/conf.d/dev-api.winningbrothers.localhost.conf')
+const apiNginxConfPath = resolve(__dirname, '../../../nxt-server/conf.d/dev-api.nxt-microservices.localhost.conf')
 
 const gitlabCIContent = fs.readFileSync(gitlabCIPath, 'utf8')
 const dockerComposeContent = fs.readFileSync(dockerComposePath, 'utf8')

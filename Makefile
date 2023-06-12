@@ -21,15 +21,13 @@ build: ## build app docker compose
 .PHONY: build
 
 install-svc:
-	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared $(svc) npm i
-	docker run --rm -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -w /usr/src/nxt-backend $(svc) npm i
-	docker run --rm -v ${CURDIR}/$(svc):/usr/src/$(svc) -w /usr/src/$(svc) $(svc) npm i
+	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared $(svc) npm ci
+	docker run --rm -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -w /usr/src/nxt-backend $(svc) npm ci
+	docker run --rm -v ${CURDIR}/$(svc):/usr/src/$(svc) -w /usr/src/$(svc) $(svc) npm ci
 .PHONY: install-svc
 
 install: ## install all dependencies
-	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared nxt-node-sample npm ci
-	docker run --rm -v ${CURDIR}/nxt-backend:/usr/src/nxt-backend -w /usr/src/nxt-backend nxt-node-sample npm ci
-	docker run --rm -v ${CURDIR}/nxt-node-sample:/usr/src/nxt-node-sample -w /usr/src/nxt-node-sample nxt-node-sample npm ci
+	$(MAKE) install-svc svc=nxt-node-sample
 	
 	# Install by CLI (don't touch)
 
@@ -39,6 +37,20 @@ install: ## install all dependencies
 	docker run --rm -v ${CURDIR}/nxt-shared:/usr/src/nxt-shared -w /usr/src/nxt-shared nxt-react-sample npm ci
 	docker run --rm -v ${CURDIR}/nxt-react-sample:/usr/src/nxt-react-sample -w /usr/src/nxt-react-sample nxt-react-sample npm ci
 .PHONY: install
+
+install-dependencies: # Install dependencies inside a service and reload it
+	docker run --rm -v ${CURDIR}/$(svc):/usr/src/$(svc) -w /usr/src/$(svc) $(svc) npm i $(dep)
+
+	docker-compose -f docker-compose.yml down $(svc)
+	docker-compose -f docker-compose.yml up $(svc)
+.PHONY: install-dependencies
+
+install-dev-dependencies: # Install dev dependencies inside a service and reload it
+	docker run --rm -v ${CURDIR}/$(svc):/usr/src/$(svc) -w /usr/src/$(svc) $(svc) npm i -D $(dep)
+
+	docker-compose -f docker-compose.yml down $(svc)
+	docker-compose -f docker-compose.yml up $(svc)
+.PHONY: install-dev-dependencies
 
 rm-dependencies: ## remove all dependencies
 	rm -rf node_modules/nxt-backend
@@ -73,26 +85,31 @@ start: ## start app in docker
 .PHONY: start
 
 start-all: ## start all apps in docker
-
+	$(MAKE) start svc=nxt-server
+	$(MAKE) start svc=nxt-mongo-db
+	$(MAKE) start svc=nxt-s3
+	$(MAKE) start svc=nxt-node-sample
+	$(MAKE) start svc=nxt-angular-sample
+	$(MAKE) start svc=nxt-react-sample
 .PHONY: start-all
 
 stop: ## stop app in docker
-	docker-compose stop --force $(svc)
+	docker-compose stop $(svc)
 .PHONY: stop
 
 stop-all: ## stop all apps in docker
-	$(MAKE) stop svc=server
+	$(MAKE) stop svc=nxt-server
 	$(MAKE) stop svc=nxt-mongo-db
-	$(MAKE) stop svc=s3
+	$(MAKE) stop svc=nxt-s3
 	$(MAKE) stop svc=nxt-node-sample
 	$(MAKE) stop svc=nxt-angular-sample
 	$(MAKE) stop svc=nxt-react-sample
 .PHONY: stop-all
 
 rm-all: ## stop all apps in docker
-	$(MAKE) rm svc=server
+	$(MAKE) rm svc=nxt-server
 	$(MAKE) rm svc=nxt-mongo-db
-	$(MAKE) rm svc=s3
+	$(MAKE) rm svc=nxt-s3
 	$(MAKE) rm svc=nxt-node-sample
 	$(MAKE) rm svc=nxt-angular-sample
 	$(MAKE) rm svc=nxt-react-sample
